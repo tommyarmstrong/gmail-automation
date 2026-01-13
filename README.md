@@ -1,4 +1,4 @@
-# Gmail Label-Based Archive/Trash Automation (Google Apps Script)
+# Gmail Label-Based Archive/Trash Automations (Google Apps Script)
 
 This repo contains a Google Apps Script that runs **daily** to process Gmail threads based on labels, and sends a **weekly summary** email.
 
@@ -61,7 +61,7 @@ Example structure:
 
 **Important:**  
 Apps Script label names must match **exactly**, including nesting.  
-For nested labels, the script must use the full path (e.g. `Automation/ThreeDayArchive`).
+For nested labels, the script must use the full path (e.g. `Automations/ThreeDayArchive`).
 
 ---
 
@@ -82,7 +82,7 @@ In the **From** field:
 
 - `@substack.com`
 
-Then **Apply label**: `Automation/ThreeDayDelete` (or whichever you prefer).
+Then **Apply label**: `Automations/ThreeDayDelete` (or whichever you prefer).
 
 ---
 
@@ -96,11 +96,11 @@ Then **Apply label**: `Automation/ThreeDayDelete` (or whichever you prefer).
    - label names in `ACTIONS` (especially if nested)
 
 ### Config: label names must be exact
-If your labels are nested under `Automation`, use:
+If your labels are nested under `Automations`, use:
 
-- `Automation/ThreeDayArchive`
-- `Automation/SevenDayArchive`
-- `Automation/ThreeDayDelete`
+- `Automations/ThreeDayArchive`
+- `Automations/SevenDayArchive`
+- `Automations/ThreeDayDelete`
 
 ---
 
@@ -136,7 +136,7 @@ Create a second trigger with:
 - **Function**: `sendWeeklyMailboxActionsSummary`
 - **Event source**: `Time-driven`
 - **Type**: `Week timer`
-- **Day/time**: e.g. Monday `09:00–10:00`
+- **Day/time**: e.g. Saturday `09:00–10:00`
 
 ✅ No “Deploy” step is required for time-based triggers.
 
@@ -165,8 +165,8 @@ Apps Script logs are visible in:
 Most common issue: label is nested but script uses the non-nested name.
 
 Example:
-- Gmail label shown as `Automation / ThreeDayArchive`
-- Script must use `Automation/ThreeDayArchive`
+- Gmail label shown as `Automations / ThreeDayArchive`
+- Script must use `Automations/ThreeDayArchive`
 
 To list labels exactly as the script sees them, run:
 
