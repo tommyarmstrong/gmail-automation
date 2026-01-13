@@ -14,6 +14,18 @@ The three actions can easily be modified to a different set of similar actions.
 
 ---
 
+## Contents
+
+1. [What “Archive” means](#what-archive-means-in-gmail)
+2. [Files](#files)
+3. [Setup Overview](#setup-overview)
+4. [Customizing Actions](#customizing-actions)
+5. [Step-by-Step Setup](#1-create-the-gmail-labels)
+6. [Debugging](#debugging--common-gotchas)
+7. [Privacy](#privacy-note)
+
+---
+
 ## What “Archive” means in Gmail
 
 Gmail doesn’t have a separate “Archive folder”.
@@ -29,6 +41,7 @@ To view archived mail: **All Mail** or search `-in:inbox`.
 
 - `Code.gs` : the Apps Script code
 - `README.md`: this guide
+- `LICENSE`: MIT License
 
 ---
 
@@ -40,6 +53,17 @@ To view archived mail: **All Mail** or search `-in:inbox`.
 4. Authorise the script
 5. Add a **daily trigger** and a **weekly trigger**
 6. Test manually once and confirm behaviour
+
+---
+
+## Customizing Actions
+
+You can change the behavior by editing the `ACTIONS` list at the top of `Code.gs`.
+
+- **key**: Internal name for logging.
+- **labelName**: The exact Gmail label (case-sensitive).
+- **daysOld**: How many days to wait before acting.
+- **op**: The action to take (`"ARCHIVE"` or `"TRASH"`).
 
 ---
 
@@ -140,6 +164,8 @@ Create a second trigger with:
 
 ✅ No “Deploy” step is required for time-based triggers.
 
+**Note:** Triggers run according to the script's time zone. You can check/change this in the Apps Script editor under **Project Settings (gear icon) > General > Time zone**.
+
 ---
 
 ## 6) Test manually (recommended)
@@ -168,9 +194,16 @@ Example:
 - Gmail label shown as `Automations / ThreeDayArchive`
 - Script must use `Automations/ThreeDayArchive`
 
-To list labels exactly as the script sees them, run:
+To list labels exactly as the script sees them, paste this temporarily into `Code.gs` and run it:
 
 ```javascript
 function listMyLabels() {
   GmailApp.getUserLabels().forEach(l => Logger.log(l.getName()));
 }
+```
+
+---
+
+## Privacy Note
+
+This script runs entirely within your own Google account. No email data is sent to external servers or third parties. You are the only one with access to the execution logs.
