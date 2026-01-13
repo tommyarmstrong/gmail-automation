@@ -16,13 +16,12 @@ The three actions can easily be modified to a different set of similar actions.
 
 ## Contents
 
-1. [What “Archive” means](#what-archive-means-in-gmail)
-2. [Files](#files)
-3. [Setup Overview](#setup-overview)
-4. [Customizing Actions](#customizing-actions)
-5. [Step-by-Step Setup](#1-create-the-gmail-labels)
-6. [Debugging](#debugging--common-gotchas)
-7. [Privacy](#privacy-note)
+1. [Files](#files)
+2. [Setup Overview](#setup-overview)
+3. [Customizing Actions](#customizing-actions)
+4. [Step-by-Step Setup](#1-create-the-gmail-labels)
+5. [Debugging](#debugging--common-gotchas)
+6. [Privacy](#privacy-note)
 
 ---
 
@@ -42,17 +41,6 @@ The three actions can easily be modified to a different set of similar actions.
 4. Authorise the script
 5. Add a **daily trigger** and a **weekly trigger**
 6. Test manually once and confirm behaviour
-
----
-
-## What “Archive” means in Gmail
-
-Gmail doesn’t have a separate “Archive folder”.
-
-- **Inbox**: messages have the `INBOX` label
-- **Archived**: messages do **not** have `INBOX` but still appear in **All Mail**
-
-To view archived mail: **All Mail** or search `-in:inbox`.
 
 ---
 
