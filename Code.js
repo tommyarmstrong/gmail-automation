@@ -18,6 +18,7 @@
 
 const SUMMARY_EMAIL_TO = Session.getActiveUser().getEmail();
 const MAX_RUNS_TO_KEEP = 300;
+const DRY_RUN = false; // Set to true to test without modifying emails
 
 /**
  * IMPORTANT:
@@ -159,14 +160,16 @@ function processLabel_(action, now) {
     scanned += 1;
 
     if (thread.getLastMessageDate() < cutoff) {
-      if (action.operation === "TRASH") {
-        thread.moveToTrash();
-      } else if (action.operation === "ARCHIVE") {
-        thread.moveToArchive();
-      }
+      if (!DRY_RUN) {
+        if (action.operation === "TRASH") {
+          thread.moveToTrash();
+        } else if (action.operation === "ARCHIVE") {
+          thread.moveToArchive();
+        }
 
-      // Remove label so it is not processed again
-      thread.removeLabel(label);
+        // Remove label so it is not processed again
+        thread.removeLabel(label);
+      }
       acted += 1;
     }
   });

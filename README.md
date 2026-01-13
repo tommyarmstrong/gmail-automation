@@ -26,17 +26,6 @@ The three actions can easily be modified to a different set of similar actions.
 
 ---
 
-## What “Archive” means in Gmail
-
-Gmail doesn’t have a separate “Archive folder”.
-
-- **Inbox**: messages have the `INBOX` label
-- **Archived**: messages do **not** have `INBOX` but still appear in **All Mail**
-
-To view archived mail: **All Mail** or search `-in:inbox`.
-
----
-
 ## Files
 
 - `Code.gs` : the Apps Script code
@@ -56,6 +45,17 @@ To view archived mail: **All Mail** or search `-in:inbox`.
 
 ---
 
+## What “Archive” means in Gmail
+
+Gmail doesn’t have a separate “Archive folder”.
+
+- **Inbox**: messages have the `INBOX` label
+- **Archived**: messages do **not** have `INBOX` but still appear in **All Mail**
+
+To view archived mail: **All Mail** or search `-in:inbox`.
+
+---
+
 ## Customizing Actions
 
 You can change the behavior by editing the `ACTIONS` list at the top of `Code.gs`.
@@ -63,7 +63,17 @@ You can change the behavior by editing the `ACTIONS` list at the top of `Code.gs
 - **key**: Internal name for logging.
 - **labelName**: The exact Gmail label (case-sensitive).
 - **daysOld**: How many days to wait before acting.
-- **op**: The action to take (`"ARCHIVE"` or `"TRASH"`).
+- **operation**: The action to take (`"ARCHIVE"` or `"TRASH"`).
+
+### Dry Run Mode
+
+To test without modifying emails, set `DRY_RUN` to `true` at the top of the file:
+
+```javascript
+const DRY_RUN = true;
+```
+
+When enabled, the script will log what it *would* have done but won't archive, trash, or remove labels.
 
 ---
 
