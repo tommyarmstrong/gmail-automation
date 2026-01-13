@@ -29,19 +29,19 @@ const ACTIONS = [
     key: "ThreeDayArchive",
     labelName: "Automations/ThreeDayArchive",
     daysOld: 3,
-    op: "ARCHIVE",
+    operation: "ARCHIVE",
   },
   {
     key: "SevenDayArchive",
     labelName: "Automations/SevenDayArchive",
     daysOld: 7,
-    op: "ARCHIVE",
+    operation: "ARCHIVE",
   },
   {
     key: "ThreeDayDelete",
     labelName: "Automations/ThreeDayDelete",
     daysOld: 3,
-    op: "TRASH",
+    operation: "TRASH",
   },
 ];
 
@@ -63,7 +63,7 @@ function runDailyMailboxActions() {
         ...result,
         labelName: action.labelName,
         daysOld: action.daysOld,
-        op: action.op,
+        operation: action.operation,
       });
     } catch (e) {
       recordRun_(action.key, {
@@ -71,7 +71,7 @@ function runDailyMailboxActions() {
         acted: 0,
         labelName: action.labelName,
         daysOld: action.daysOld,
-        op: action.op,
+        operation: action.operation,
         error: String(e && e.message ? e.message : e),
       });
     }
@@ -105,7 +105,7 @@ function sendWeeklyMailboxActionsSummary() {
 
   ACTIONS.forEach((a) => {
     const t = totals[a.key];
-    const verb = a.op === "TRASH" ? "trashed" : "archived";
+    const verb = a.operation === "TRASH" ? "trashed" : "archived";
     lines.push(
       `- ${a.key}: scanned=${t.scanned}, ${verb}=${t.acted}, errors=${t.errors}`
     );
@@ -125,6 +125,15 @@ function sendWeeklyMailboxActionsSummary() {
  **************************************************************/
 
 function processLabel_(action, now) {
+  // Validate action.operation
+  if (action.operation !== "TRASH" && action.operation !== "ARCHIVE") {
+    return {
+      scanned: 0,
+      acted: 0,
+      error: `Unknown operation: ${action.operation}`,
+    };
+  }
+
   const label = GmailApp.getUserLabelByName(action.labelName);
 
   if (!label) {
@@ -150,9 +159,9 @@ function processLabel_(action, now) {
     scanned += 1;
 
     if (thread.getLastMessageDate() < cutoff) {
-      if (action.op === "TRASH") {
+      if (action.operation === "TRASH") {
         thread.moveToTrash();
-      } else {
+      } else if (action.operation === "ARCHIVE") {
         thread.moveToArchive();
       }
 
@@ -169,7 +178,7 @@ function processLabel_(action, now) {
  * STORAGE FOR WEEKLY SUMMARY
  **************************************************************/
 
-function recordRun_(actionKey, { scanned, acted, labelName, daysOld, op, error }) {
+function recordRun_(actionKey, { scanned, acted, labelName, daysOld, operation, error }) {
   const props = PropertiesService.getScriptProperties();
   const raw = props.getProperty("MAILBOX_ACTION_RUNS_JSON");
   const runs = raw ? JSON.parse(raw) : [];
@@ -179,7 +188,7 @@ function recordRun_(actionKey, { scanned, acted, labelName, daysOld, op, error }
     actionKey,
     labelName,
     daysOld,
-    op,
+    operation,
     scanned: scanned || 0,
     acted: acted || 0,
     error: error || "",
